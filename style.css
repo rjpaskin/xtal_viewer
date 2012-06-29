@@ -1,0 +1,64 @@
+body {
+  font-size: 8pt;
+}
+tr td:first-child {
+  font-weight: bold;
+}
+#ingredients {
+  float: left;
+  background: #eee;
+}
+#conditions {
+  float: left;
+  width: 816px;
+  padding: 0;
+  margin-left: 2em;
+  margin-top: 2em;
+}
+#conditions li,
+#conditions ul {
+  list-style: none;
+  padding: 0;
+}
+#conditions > li {
+  float: left;
+  width: 40px;
+  height: 40px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  border-radius: 12px;
+  background: #efefef;
+  border: 1px solid #ccc;
+  padding: 10px;
+  position: relative;
+}
+#conditions > li:last-child {
+  margin-right: 0;
+}
+.cell-id {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  font-weight: bold;
+  color: #666;
+}
+.list {
+  display: none;
+}
+#conditions > li:hover {
+  height: 80px;
+  width: 80px;
+  left: -20px;
+  top: -20px;
+  margin-right: -34px;
+  margin-bottom: -34px;
+  z-index: 10000;
+  cursor: pointer;
+  -moz-box-shadow: 0 0 5px 5px #ccc;
+  -webkit-box-shadow: 0 0 5px 5px #ccc;
+  box-shadow: 0 0 5px 5px #ccc;
+  border-radius: 20px;
+}
+#conditions > li:hover .list {
+  display: block;
+}
