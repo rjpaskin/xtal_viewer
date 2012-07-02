@@ -1,6 +1,10 @@
 body {
   font-size: 8pt;
 }
+h1 span {
+  font-size: smaller;
+  color: #666;
+}
 tr td:first-child {
   font-weight: bold;
 }
@@ -31,6 +35,7 @@ tr td:first-child {
   border: 1px solid #ccc;
   padding: 10px;
   position: relative;
+  text-align: center;
 }
 #conditions > li:last-child {
   margin-right: 0;
@@ -41,6 +46,11 @@ tr td:first-child {
   bottom: 6px;
   font-weight: bold;
   color: #666;
+}
+.num-conditions {
+  font-weight: bold;
+  color: #dedede;
+  font-size: 20pt;
 }
 .list {
   display: none;
@@ -58,7 +68,25 @@ tr td:first-child {
   -webkit-box-shadow: 0 0 5px 5px #ccc;
   box-shadow: 0 0 5px 5px #ccc;
   border-radius: 20px;
+  text-align: left;
 }
 #conditions > li:hover .list {
   display: block;
+}
+#conditions > li:hover .cell-id {
+  right: 10px;
+  bottom: 10px;
+}
+#conditions > li:hover .num-conditions {
+  display: none;
+}
+#details {
+  height: 100px;
+}
+#details li {
+  margin-left: 30px;
+}
+#wrapper {
+  height: 500px;
+  overflow: auto;
 }
