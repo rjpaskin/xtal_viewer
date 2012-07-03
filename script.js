@@ -44,11 +44,10 @@ jQuery(function($) {
         }
       });
       
-      var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-          my_lett = letters[Math.ceil((ind + 1) / 12) - 1]
-          well_id = my_lett + ((ind % 12) + 1);
-      
-      XS.tmpl('well', { ingredients: my_ingreds, well_id: well_id }, function(data) {
+      XS.tmpl('well', {
+          ingredients: my_ingreds,
+          well_id:     XS.generateWellID(ind)
+        }, function(data) {
         $(data)
           .appendTo(list)
           .data({
@@ -71,15 +70,16 @@ jQuery(function($) {
             
       // Find appropriate stock
       var stock = window._root.find('stock').eq(parseInt(id) - 1);
-      
-      $('<li/>')
-        .append(cond.find('concentration').text())
-        .append(stock.find('units').text())
-        .append(' ')
-        .append(val.find('name').text())
-        .append((cond.find('pH').length !== 0) ? ' pH ' + cond.find('pH').text() : '')
-        .append(' (' + cond.find('type').text().toLowerCase() + ')')
-        .appendTo(details);
+        
+      XS.tmpl('condition-detail', {
+        conc:  cond.find('concentration').text(),
+        units: stock.find('units').text(),
+        name:  val.find('name').text(),
+        pH:    (cond.find('pH').length !== 0) ? ' pH ' + cond.find('pH').text() : '',
+        type:  cond.find('type').text().toLowerCase()
+      }, function(data) {
+        $(data).appendTo(details);
+      });
     });
   })
   .on('mouseout', function() {
