@@ -1,18 +1,14 @@
-$(function() {
+jQuery(function($) {
   $.get('screens/molecular_dimensions/JCSG+.xml', function(data) {
     var root = $(data);
     window._root = root;
-    
-    console.log(root.find('condition').slice(0,2));
-    
+      
     var table = $('#ingredients tbody');
     
     // IDs <-> ingredient map:
     //     key:   stock ID
     //     value: eq() of ingredient in list
     var ingredients = {};
-    
-    console.log(root.find('stock').length);
     
     // Setup table of ingredients
     root.find('ingredient').each(function(ind) {
@@ -23,12 +19,9 @@ $(function() {
         return num;
       }).get();
                 
-      $('<tr/>')
-        .append('<td>' + (ind + 1) + '</td>')
-        .append('<td>' + el.find('shortName').text() + '</td>')
-        .append('<td>' + el.find('name').text() + '</td>')
-        //.append('<td>' + ids.join(', ') + '</td>')
-        .appendTo(table);        
+      XS.tmpl('ingredient', { el: el, ind: ind, ids: ids }, function(data) {
+        $(data).appendTo(table);
+      });       
     });
     
     // Setup plate view
@@ -53,23 +46,16 @@ $(function() {
       
       var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
           my_lett = letters[Math.ceil((ind + 1) / 12) - 1]
-          cell_id = my_lett + ((ind % 12) + 1);
+          well_id = my_lett + ((ind % 12) + 1);
       
-      $('<li/>')
-        .data({
-          'ingredients': my_ingreds,
-          'conditions':  el.find('conditionIngredient').clone()
-        })
-        .append(function() {
-          var sub = $('<ul/>').addClass('list');
-          $.each(my_ingreds, function(ind, val) {
-            sub.append('<li>' + val.find('shortName').text() + '</li>');
+      XS.tmpl('well', { ingredients: my_ingreds, well_id: well_id }, function(data) {
+        $(data)
+          .appendTo(list)
+          .data({
+            'ingredients': my_ingreds,
+            'conditions':  el.find('conditionIngredient').clone()
           });
-          return sub;
-        })
-        .append('<span class="num-conditions">' + my_ingreds.length + '</span>')
-        .append('<span class="cell-id">' + cell_id + '</span>')
-        .appendTo(list);        
+      });      
     });
   });
   
@@ -91,6 +77,7 @@ $(function() {
         .append(stock.find('units').text())
         .append(' ')
         .append(val.find('name').text())
+        .append((cond.find('pH').length !== 0) ? ' pH ' + cond.find('pH').text() : '')
         .append(' (' + cond.find('type').text().toLowerCase() + ')')
         .appendTo(details);
     });

@@ -1,0 +1,9 @@
+<li>
+  <ul class="list">
+    <% for (var i = 0; i < ingredients.length; i++) { %>
+      <li><%= ingredients[i].find('shortName').text() %></li>
+    <% } %>
+  </ul>
+  <span class="num-conditions"><%= ingredients.length %></span>
+  <span class="cell-id"><%= well_id %></span>
+</li>
