@@ -10,24 +10,38 @@ jQuery(function($) {
     // IDs <-> ingredient map:
     //     key:   stock ID
     //     value: eq() of ingredient in list
-    var ingredients = {};
+    var ingredients_map = {};
     
     var chem_list = $('#ingredients tbody').empty();
     
     $('#ingredients').show();
     
     // Setup table of ingredients
-    root.find('ingredient').each(function(ind) {
+    var ingredients = root.find('ingredient').map(function(ind) {
       var el = $(this);
       var ids = el.find('localID').map(function() {
         var num = $(this).text();
-        ingredients[num] = ind;
+        ingredients_map[num] = ind;
         return num;
       }).get();
                 
-      XS.tmpl('ingredient', { el: el, ind: ind, ids: ids }, function(tmpl) {
+      return { el: el, ind: ind, ids: ids }
+    }).get().sort(function(a, b) {
+      var a_name = a.el.find('name').text(),
+          b_name = b.el.find('name').text();
+      if (a_name < b_name) {
+        return -1;
+      }
+      if (a_name > b_name) {
+        return 1;
+      }
+      return 0;
+    });
+    
+    $.each(ingredients, function() {    
+      XS.tmpl('ingredient', this, function(tmpl) {
         $(tmpl).appendTo(chem_list);
-      });       
+      });
     });
     
     var plate_view = $('#conditions').empty();
@@ -45,8 +59,8 @@ jQuery(function($) {
       
       // Match IDs to actual ingredients
       $.each(ids, function(ind, id) {
-        if (ingredients.hasOwnProperty(id)) {
-          my_ingreds.push(ingred_els.eq(ingredients[id]).clone());
+        if (ingredients_map.hasOwnProperty(id)) {
+          my_ingreds.push(ingred_els.eq(ingredients_map[id]).clone());
         }
       });
       
