@@ -1,5 +1,9 @@
 jQuery(function($) {
-  $.get('screens/molecular_dimensions/JCSG+.xml', function(data) {
+  XS.fetchXML = function(vendor, screen, callback) {
+    $.get('screens/' + vendor + '/' + screen + '.xml', callback);
+  };
+
+  XS.processXML = function(data) {
     var root = $(data);
     window._root = root;
     
@@ -7,6 +11,8 @@ jQuery(function($) {
     //     key:   stock ID
     //     value: eq() of ingredient in list
     var ingredients = {};
+    
+    var chem_list = $('#ingredients tbody').empty();
     
     // Setup table of ingredients
     root.find('ingredient').each(function(ind) {
@@ -18,9 +24,11 @@ jQuery(function($) {
       }).get();
                 
       XS.tmpl('ingredient', { el: el, ind: ind, ids: ids }, function(tmpl) {
-        $(tmpl).appendTo('#ingredients tbody');
+        $(tmpl).appendTo(chem_list);
       });       
     });
+    
+    var plate_view = $('#conditions').empty();
     
     // Setup plate view
     root.find('condition').each(function(ind) {
@@ -45,14 +53,14 @@ jQuery(function($) {
           well_id:     XS.generateWellID(ind)
         }, function(tmpl) {
         $(tmpl)
-          .appendTo('#conditions')
+          .appendTo(plate_view)
           .data({
             'ingredients': my_ingreds,
             'conditions':  el.find('conditionIngredient').clone()
           });
       });      
     });
-  });
+  };
   
   $('#conditions')
   .on('mouseover', 'li:not(.list li)', function() {
@@ -80,5 +88,22 @@ jQuery(function($) {
   })
   .on('mouseout', function() {
     $('#details ul').empty();
+  });
+  
+  $.getJSON('list_screen_files.php', function(data) {
+    XS.tmpl('select-screen', { list: data }, function(tmpl) {
+      $(tmpl).insertAfter('h1');
+    });
+  });
+  
+  $(document).on('change', '#change-screen', function(e) {
+    if ($(this).val() === 'noop') return;
+    
+    var vendor = $(this).find(':selected').parent(),
+        screen = $(this).val();
+        
+    XS.fetchXML(vendor.attr('id'), screen, XS.processXML);
+    
+    $('h1').text(screen).append('&nbsp;<span>' + vendor.attr('label') + '</span>');
   });
 });

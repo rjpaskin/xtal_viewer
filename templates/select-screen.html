@@ -1,0 +1,10 @@
+<select id="change-screen">
+  <option value="noop">Pick a screen...</option>
+  <% for (var vendor in list) { %>
+    <optgroup label="<%= list[vendor].name %>" id="<%= vendor %>">
+      <% for (var screen in list[vendor].files) { %>
+        <option><%= list[vendor].files[screen] %></option>
+      <% } %>
+    </optgroup>
+  <% } %>
+</select>
