@@ -2,8 +2,6 @@ jQuery(function($) {
   $.get('screens/molecular_dimensions/JCSG+.xml', function(data) {
     var root = $(data);
     window._root = root;
-      
-    var table = $('#ingredients tbody');
     
     // IDs <-> ingredient map:
     //     key:   stock ID
@@ -19,14 +17,12 @@ jQuery(function($) {
         return num;
       }).get();
                 
-      XS.tmpl('ingredient', { el: el, ind: ind, ids: ids }, function(data) {
-        $(data).appendTo(table);
+      XS.tmpl('ingredient', { el: el, ind: ind, ids: ids }, function(tmpl) {
+        $(tmpl).appendTo('#ingredients tbody');
       });       
     });
     
     // Setup plate view
-    var list = $('#conditions');
-    
     root.find('condition').each(function(ind) {
       var el = $(this);
       // Get IDs for all ingredients
@@ -47,9 +43,9 @@ jQuery(function($) {
       XS.tmpl('well', {
           ingredients: my_ingreds,
           well_id:     XS.generateWellID(ind)
-        }, function(data) {
-        $(data)
-          .appendTo(list)
+        }, function(tmpl) {
+        $(tmpl)
+          .appendTo('#conditions')
           .data({
             'ingredients': my_ingreds,
             'conditions':  el.find('conditionIngredient').clone()

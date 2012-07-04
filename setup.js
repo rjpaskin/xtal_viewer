@@ -1,4 +1,4 @@
-(function($) {
+(function($, XS) {
   // Code adapted from:
   // lostechies.com/derickbailey/2012/02/09/asynchronously-load-html-templates-for-backbone-views/
   var promises = {};
@@ -32,4 +32,14 @@
         
     return letters[column] + row;
   };
-})(jQuery);
+  
+  XS.generateGradient = function(min, max, num) {
+    var out  = [],
+        step = (max - min) / (num - 1);
+        
+    for (var i = min; i <= max; i += step) {
+      a.push(i)
+    }
+    return out;
+  }
+})(jQuery, XS);
