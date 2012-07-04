@@ -10,7 +10,20 @@ tr td:first-child {
 }
 #ingredients {
   float: left;
-  background: #eee;
+  width: 100%;
+  display: none;
+  border-collapse: collapse;
+}
+#ingredients th {
+  text-align: left;
+  background: #efefef;
+}
+#ingredients td, 
+#ingredients th {
+  border-bottom: 1px solid #ccc;
+}
+#ingredients tr:hover td {
+  background-color: aliceblue;
 }
 #conditions {
   float: left;
@@ -79,6 +92,9 @@ tr td:first-child {
 }
 #conditions > li:hover .num-conditions {
   display: none;
+}
+#conditions.select-mode .well:not(.well-selected) {
+  opacity: 0.3;
 }
 #details {
   height: 100px;

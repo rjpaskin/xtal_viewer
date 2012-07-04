@@ -14,6 +14,8 @@ jQuery(function($) {
     
     var chem_list = $('#ingredients tbody').empty();
     
+    $('#ingredients').show();
+    
     // Setup table of ingredients
     root.find('ingredient').each(function(ind) {
       var el = $(this);
@@ -88,6 +90,26 @@ jQuery(function($) {
   })
   .on('mouseout', function() {
     $('#details ul').empty();
+  });
+  
+  $('#ingredients tbody')
+  .on('mouseover', 'tr', function() {
+    var name = $(this).find('td').eq(1).text();
+    $('.list li')
+      .filter(function() {
+        return $(this).text() === name;
+      })
+      .parents('.well')
+      .addClass('well-selected')
+  })
+  .on('mouseout', 'tr', function() {
+    $('.well').removeClass('well-selected');
+  })
+  .on('mouseover', function() {
+    $('#conditions').addClass('select-mode');
+  })
+  .on('mouseout', function() {
+    $('#conditions').removeClass('select-mode');
   });
   
   $.getJSON('list_screen_files.php', function(data) {
