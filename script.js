@@ -2,6 +2,16 @@ jQuery(function($) {
   XS.fetchXML = function(vendor, screen, callback) {
     $.get('screens/' + vendor + '/' + screen + '.xml', callback);
   };
+  
+  XS.getSortName = function(obj) {
+    var name   = obj.el.find('name').text(),
+        letter = name.match(/[A-Z]/);
+    
+    if (letter !== null) {
+      return letter.toString().toLowerCase();
+    }
+    return name.match(/[a-z]/).toString().toLowerCase();
+  };
 
   XS.processXML = function(data) {
     var root = $(data);
@@ -27,8 +37,8 @@ jQuery(function($) {
                 
       return { el: el, ind: ind, ids: ids }
     }).get().sort(function(a, b) {
-      var a_name = a.el.find('name').text(),
-          b_name = b.el.find('name').text();
+      var a_name = XS.getSortName(a),
+          b_name = XS.getSortName(b);
       if (a_name < b_name) {
         return -1;
       }
