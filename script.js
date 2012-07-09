@@ -138,7 +138,7 @@ jQuery(function($) {
   
   $.getJSON('list_screen_files.php', function(data) {
     XS.tmpl('select-screen', { list: data }, function(tmpl) {
-      $(tmpl).insertAfter('h1');
+      $(tmpl).insertAfter('h1').chosen();
     });
   });
   

@@ -106,3 +106,6 @@ tr td:first-child {
   height: 500px;
   overflow: auto;
 }
+#change-screen {
+  width: 250px;
+}
