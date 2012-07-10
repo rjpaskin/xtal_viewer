@@ -4,7 +4,7 @@
   var promises = {};
   
   var loadTemplateAsync = function(name){
-    var promise = promises[name] || $.get("templates/" + name + ".html");
+    var promise = promises[name] || $.get("templates/" + name + ".html?" + new Date().getTime());
     promises[name] = promise;
     return promise;
   };
