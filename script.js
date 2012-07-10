@@ -100,7 +100,7 @@ jQuery(function($) {
   .on('mouseover', 'li:not(.list li)', function() {
     var data = $(this).data();
     
-    var details = $('#details ul').empty();
+    var details = $('#details').css('visibility', 'visible').find('tbody').empty();
     
     $.each(data.ingredients, function(ind, val) {
       var cond = $(data.conditions[ind]);
@@ -113,15 +113,16 @@ jQuery(function($) {
         conc:  cond.find('concentration').text(),
         units: stock.find('units').text(),
         name:  val.find('name').text(),
-        pH:    (cond.find('pH').length !== 0) ? ' pH ' + cond.find('pH').text() : '',
-        type:  cond.find('type').text().toLowerCase()
+        pH:    cond.find('pH').text(),
+        type:  cond.find('type').text()
       }, function(data) {
         $(data).appendTo(details);
       });
     });
+    $('#details h4').text($(this).find('.cell-id').text());
   })
   .on('mouseout', function() {
-    $('#details ul').empty();
+    $('#details').css('visibility', 'hidden').find('tbody').empty();
   });
   
   $('#ingredients tbody')
@@ -132,7 +133,7 @@ jQuery(function($) {
         return $(this).text() === name;
       })
       .parents('.well')
-      .addClass('well-selected')
+      .addClass('well-selected');
   })
   .on('mouseout', 'tr', function() {
     $('.well').removeClass('well-selected');

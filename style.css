@@ -5,22 +5,23 @@ h1 span {
   font-size: smaller;
   color: #666;
 }
-tr td:first-child {
+table {
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  background: #efefef;
+}
+td, th {
+  border-bottom: 1px solid #ccc;
+}
+#ingredients tr td:first-child {
   font-weight: bold;
 }
 #ingredients {
   float: left;
   width: 100%;
   display: none;
-  border-collapse: collapse;
-}
-#ingredients th {
-  text-align: left;
-  background: #efefef;
-}
-#ingredients td, 
-#ingredients th {
-  border-bottom: 1px solid #ccc;
 }
 #ingredients tr:hover td {
   background-color: aliceblue;
@@ -97,10 +98,12 @@ tr td:first-child {
   opacity: 0.3;
 }
 #details {
-  height: 100px;
+  height: 150px;
+  visibility: hidden;
 }
-#details li {
-  margin-left: 30px;
+#details table {
+  float: left;
+  width: 40%;
 }
 #wrapper {
   height: 500px;
