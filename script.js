@@ -12,6 +12,14 @@ jQuery(function($) {
     }
     return name.match(/[a-z]/).toString().toLowerCase();
   };
+  
+  // Imperfect processing of `shortNames` to obtain correct
+  // subscript number. Temp fix until manually fixed all names
+  // server-side.
+  XS.getShortName = function(obj) {
+    var regex = /([A-Z)])([0-9])(?![0-9K,-\/])/gi;
+    return obj.find('shortName').text().replace(regex, "$1<sub>$2</sub>");
+  };
 
   XS.processXML = function(data) {
     var root = $(data);
