@@ -37,7 +37,7 @@
         step = (max - min) / (num - 1);
         
     for (var i = min; i <= max; i += step) {
-      a.push(i)
+      out.push(i)
     }
     return out;
   }

@@ -22,8 +22,7 @@ jQuery(function($) {
   };
 
   XS.processXML = function(data) {
-    var root = $(data);
-    window._root = root;
+    var root = window._root = $(data);
     
     // IDs <-> ingredient map:
     //     key:   stock ID
@@ -35,15 +34,19 @@ jQuery(function($) {
     $('#ingredients').show();
     
     // Setup table of ingredients
-    var ingredients = root.find('ingredient').map(function(ind) {
-      var el = $(this);
-      var ids = el.find('localID').map(function() {
+    var ingredients = root.find('ingredient').map(function(index) {
+      var el  = $(this),
+          ids = el.find('localID').map(function() {
         var num = $(this).text();
-        ingredients_map[num] = ind;
+        ingredients_map[num] = index;
         return num;
       }).get();
                 
-      return { el: el, ind: ind, ids: ids }
+      return {
+        el:  el,
+        ind: index,
+        ids: ids
+      };
     }).get().sort(function(a, b) {
       var a_name = XS.getSortName(a),
           b_name = XS.getSortName(b);
@@ -72,24 +75,24 @@ jQuery(function($) {
         return $(this).find('stockLocalID').text();
       }).get();
       
-      var ingred_els = root.find('ingredient'),
-          my_ingreds = [];
+      var ingredient_els = root.find('ingredient'),
+          my_ingredients = [];
       
       // Match IDs to actual ingredients
       $.each(ids, function(ind, id) {
         if (ingredients_map.hasOwnProperty(id)) {
-          my_ingreds.push(ingred_els.eq(ingredients_map[id]).clone());
+          my_ingredients.push(ingredient_els.eq(ingredients_map[id]).clone());
         }
       });
       
       XS.tmpl('well', {
-          ingredients: my_ingreds,
+          ingredients: my_ingredients,
           well_id:     XS.generateWellID(ind)
         }, function(tmpl) {
         $(tmpl)
           .appendTo(plate_view)
           .data({
-            'ingredients': my_ingreds,
+            'ingredients': my_ingredients,
             'conditions':  el.find('conditionIngredient').clone()
           });
       });      
@@ -102,23 +105,24 @@ jQuery(function($) {
     
     var details = $('#details').css('visibility', 'visible').find('tbody').empty();
     
-    $.each(data.ingredients, function(ind, val) {
-      var cond = $(data.conditions[ind]);
-      var id   = cond.find('stockLocalID').text();
+    $.each(data.ingredients, function(index, ingredient) {
+      var condition = $(data.conditions[index]),
+          id        = condition.find('stockLocalID').text();
             
       // Find appropriate stock
       var stock = window._root.find('stock').eq(parseInt(id) - 1);
         
       XS.tmpl('condition-detail', {
-        conc:  cond.find('concentration').text(),
+        conc:  condition.find('concentration').text(),
         units: stock.find('units').text(),
-        name:  val.find('name').text(),
-        pH:    cond.find('pH').text(),
-        type:  cond.find('type').text()
+        name:  ingredient.find('name').text(),
+        pH:    condition.find('pH').text(),
+        type:  condition.find('type').text()
       }, function(data) {
         $(data).appendTo(details);
       });
     });
+    
     $('#details h4').text($(this).find('.cell-id').text());
   })
   .on('mouseout', function() {
@@ -145,12 +149,15 @@ jQuery(function($) {
     $('#conditions').removeClass('select-mode');
   });
   
+  // Fetch JSON list of screens from server and render
+  // as Chosen select box.
   $.getJSON('list_screen_files.php', function(data) {
     XS.tmpl('select-screen', { list: data }, function(tmpl) {
       $(tmpl).insertAfter('h1').chosen();
     });
   });
   
+  // Load a screen
   $(document).on('change', '#change-screen', function(e) {
     if ($(this).val() === 'noop') return;
     
