@@ -22,7 +22,13 @@ jQuery(function($) {
   };
 
   XS.processXML = function(data) {
-    var root = window._root = $(data);
+    var root = XS._xml = $(data);
+    
+    // Cache elements for later
+    var xml = {
+      ingredients: root.find('ingredient'),
+      conditions:  root.find('condition')
+    };
     
     // IDs <-> ingredient map:
     //     key:   stock ID
@@ -34,7 +40,7 @@ jQuery(function($) {
     $('#ingredients').show();
     
     // Setup table of ingredients
-    var ingredients = root.find('ingredient').map(function(index) {
+    var ingredients = xml.ingredients.map(function(index) {
       var el  = $(this),
           ids = el.find('localID').map(function() {
                   var num = $(this).text();
@@ -61,20 +67,19 @@ jQuery(function($) {
     var plate_view = $('#conditions').empty();
     
     // Setup plate view
-    root.find('condition').each(function(ind) {
+    xml.conditions.each(function(ind) {
       var el = $(this);
-      // Get IDs for all ingredients
+      // Get IDs for all ingredients in this well
       var ids = el.find('conditionIngredient').map(function() {
         return $(this).find('stockLocalID').text();
       }).get();
       
-      var ingredient_els = root.find('ingredient'),
-          my_ingredients = [];
+      var my_ingredients = [];
       
       // Match IDs to actual ingredients
       $.each(ids, function(ind, id) {
         if (ingredients_map.hasOwnProperty(id)) {
-          my_ingredients.push(ingredient_els.eq(ingredients_map[id]).clone());
+          my_ingredients.push(xml.ingredients.eq(ingredients_map[id]).clone());
         }
       });
       
@@ -105,7 +110,7 @@ jQuery(function($) {
           id        = condition.find('stockLocalID').text();
             
       // Find appropriate stock
-      var stock = window._root.find('stock').eq(parseInt(id) - 1);
+      var stock = XS._xml.find('stock').eq(parseInt(id) - 1);
         
       XS.tmpl('condition-detail', {
         conc:  condition.find('concentration').text(),
