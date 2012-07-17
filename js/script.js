@@ -25,9 +25,9 @@ jQuery(function($) {
     var root = XS._xml = $(data);
     
     // Cache elements for later
-    var xml = {
+    var $xml = {
       ingredients: root.find('ingredient'),
-      conditions:  root.find('condition')
+      wells:       root.find('condition')
     };
     
     // IDs <-> ingredient map:
@@ -40,23 +40,21 @@ jQuery(function($) {
     $('#ingredients').show();
     
     // Setup table of ingredients
-    var ingredients = xml.ingredients.map(function(index) {
-      var el  = $(this),
-          ids = el.find('localID').map(function() {
-                  var num = $(this).text();
-                  // Add to ID <-> ingredient map while we're here
-                  ingredients_map[num] = index;
-                  return num;
-                }).get();
+    _.chain($xml.ingredients)
+      .map(function(ingredient, index) {
+        var el  = $(ingredient);
                 
-      return {
-        el:    el,
-        index: index,
-        ids:   ids
-      };
-    }).get();
-    
-    _.chain(ingredients)
+        return {
+          el:    el,
+          index: index,
+          ids:   el.find('localID').map(function() {
+                    var num = $(this).text();
+                    // Add to ID <-> ingredient map while we're here
+                    ingredients_map[num] = index;
+                    return num;
+                  }).get()
+        };
+      })
       .sortBy(XS.getSortName)
       .each(function(ingredient) {    
         XS.tmpl('ingredient', ingredient, function(tmpl) {
@@ -66,32 +64,29 @@ jQuery(function($) {
     
     var plate_view = $('#conditions').empty();
     
+    
     // Setup plate view
-    xml.conditions.each(function(ind) {
-      var el = $(this);
-      // Get IDs for all ingredients in this well
-      var ids = el.find('conditionIngredient').map(function() {
-        return $(this).find('stockLocalID').text();
-      }).get();
-      
-      var my_ingredients = [];
-      
-      // Match IDs to actual ingredients
-      $.each(ids, function(ind, id) {
+    $xml.wells.each(function(index) {
+      var $el = $(this).find('conditionIngredient');
+    
+      // Find ingredients for this well
+      var $ingredients = $el.map(function() {
+        var id = $(this).find('stockLocalID').text();
+
         if (ingredients_map.hasOwnProperty(id)) {
-          my_ingredients.push(xml.ingredients.eq(ingredients_map[id]).clone());
+          return $xml.ingredients.eq(ingredients_map[id]).clone()
         }
       });
       
       XS.tmpl('well', {
-          ingredients: my_ingredients,
-          well_id:     XS.generateWellID(ind)
+          ingredients: $ingredients,
+          well_id:     XS.generateWellID(index)
         }, function(tmpl) {
         $(tmpl)
           .appendTo(plate_view)
           .data({
-            'ingredients': my_ingredients,
-            'conditions':  el.find('conditionIngredient').clone()
+            'ingredients': $ingredients,
+            'conditions':  $el.clone()
           });
       });      
     });
