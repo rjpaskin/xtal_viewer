@@ -14,7 +14,7 @@ jQuery(function($) {
   };
   
   // Imperfect processing of `shortNames` to obtain correct
-  // subscript number. Temp fix until manually fixed all names
+  // subscript number. Temporary fix until names fixed manually
   // server-side.
   XS.getShortName = function(obj) {
     var regex = /([A-Z)])([0-9])(?![0-9K,-\/])/gi;
@@ -37,15 +37,15 @@ jQuery(function($) {
     var ingredients = root.find('ingredient').map(function(index) {
       var el  = $(this),
           ids = el.find('localID').map(function() {
-        var num = $(this).text();
-        ingredients_map[num] = index;
-        return num;
-      }).get();
+                  var num = $(this).text();
+                  ingredients_map[num] = index;
+                  return num;
+                }).get();
                 
       return {
-        el:  el,
-        ind: index,
-        ids: ids
+        el:    el,
+        index: index,
+        ids:   ids
       };
     }).get().sort(function(a, b) {
       var a_name = XS.getSortName(a),
@@ -100,8 +100,10 @@ jQuery(function($) {
   };
   
   $('#conditions')
+  // Find and display details of well on hover
   .on('mouseover', 'li:not(.list li)', function() {
-    var data = $(this).data();
+    var el   = $(this),
+        data = el.data();
     
     var details = $('#details').css('visibility', 'visible').find('tbody').empty();
     
@@ -123,13 +125,15 @@ jQuery(function($) {
       });
     });
     
-    $('#details h4').text($(this).find('.cell-id').text());
+    $('#details h4').text(el.find('.cell-id').text());
   })
+  // Hide details box on mouseout
   .on('mouseout', function() {
     $('#details').css('visibility', 'hidden').find('tbody').empty();
   });
   
   $('#ingredients tbody')
+  // Highlight wells that contain mouseover'd ingredient
   .on('mouseover', 'tr', function() {
     var name = $(this).find('td').eq(1).text();
     $('.list li')
@@ -139,9 +143,11 @@ jQuery(function($) {
       .parents('.well')
       .addClass('well-selected');
   })
+  // Remove selected class from all wells
   .on('mouseout', 'tr', function() {
     $('.well').removeClass('well-selected');
   })
+  // Set/remove class for well highlighting
   .on('mouseover', function() {
     $('#conditions').addClass('select-mode');
   })
@@ -159,13 +165,15 @@ jQuery(function($) {
   
   // Load a screen
   $(document).on('change', '#change-screen', function(e) {
-    if ($(this).val() === 'noop') return;
+    var el     = $(this),
+        screen = el.val();
+    if (screen === 'noop') return;
     
-    var vendor = $(this).find(':selected').parent(),
-        screen = $(this).val();
+    var vendor = el.find(':selected').parent();
         
     XS.fetchXML(vendor.attr('id'), screen, XS.processXML);
     
+    // Display screen name
     $('h1').text(screen).append('&nbsp;<span>' + vendor.attr('label') + '</span>');
   });
 });
