@@ -7,7 +7,7 @@ jQuery(function($) {
     var name   = obj.el.find('name').text(),
         letter = name.match(/[A-Z]/);
     
-    if (letter !== null) {
+    if (!_.isNull(letter)) {
       return letter.toString().toLowerCase();
     }
     return name.match(/[a-z]/).toString().toLowerCase();
@@ -38,6 +38,7 @@ jQuery(function($) {
       var el  = $(this),
           ids = el.find('localID').map(function() {
                   var num = $(this).text();
+                  // Add to ID <-> ingredient map while we're here
                   ingredients_map[num] = index;
                   return num;
                 }).get();
@@ -47,23 +48,15 @@ jQuery(function($) {
         index: index,
         ids:   ids
       };
-    }).get().sort(function(a, b) {
-      var a_name = XS.getSortName(a),
-          b_name = XS.getSortName(b);
-      if (a_name < b_name) {
-        return -1;
-      }
-      if (a_name > b_name) {
-        return 1;
-      }
-      return 0;
-    });
+    }).get();
     
-    $.each(ingredients, function() {    
-      XS.tmpl('ingredient', this, function(tmpl) {
-        $(tmpl).appendTo(chem_list);
+    _.chain(ingredients)
+      .sortBy(XS.getSortName)
+      .each(function(ingredient) {    
+        XS.tmpl('ingredient', ingredient, function(tmpl) {
+          $(tmpl).appendTo(chem_list);
+        });
       });
-    });
     
     var plate_view = $('#conditions').empty();
     
