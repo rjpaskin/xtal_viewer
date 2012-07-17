@@ -15,7 +15,7 @@
   //   fn:   callback function, passed rendered template. 
   XS.tmpl = function(name, data, fn){
     loadTemplateAsync(name).done(function(str){
-      var template = XS._tmpl(str, data);
+      var template = _.template(str, data);
       fn.call(this, template);
     });
   };
