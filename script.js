@@ -114,7 +114,7 @@ jQuery(function($) {
         
       XS.tmpl('condition-detail', {
         conc:  condition.find('concentration').text(),
-        units: stock.find('units').text(),
+        units: stock.find('units').text().replace('M', '&nbsp;M').replace(/%([wv]\/v)/, '%&nbsp;($1)'),
         name:  ingredient.find('name').text(),
         pH:    condition.find('pH').text(),
         type:  condition.find('type').text()
