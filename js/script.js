@@ -1,4 +1,4 @@
-jQuery(function($) {
+(function(XS, $) {
   XS.fetchXML = function(vendor, screen, callback) {
     $.get('screens/' + vendor + '/' + screen + '.xml', callback);
   };
@@ -91,7 +91,10 @@ jQuery(function($) {
       });      
     });
   };
+})(XS, jQuery);
   
+  
+jQuery(function($) {
   $('#conditions')
   // Find and display details of well on hover
   .on('mouseover', 'li:not(.list li)', function() {
