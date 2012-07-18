@@ -150,26 +150,4 @@ jQuery(function($) {
   .on('mouseout', function() {
     $('#conditions').removeClass('select-mode');
   });
-  
-  // Fetch JSON list of screens from server and render
-  // as Chosen select box.
-  $.getJSON('list_screen_files.php', function(data) {
-    XS.tmpl('select-screen', { list: data }, function(tmpl) {
-      $(tmpl).insertAfter('h1').chosen();
-    });
-  });
-  
-  // Load a screen
-  $(document).on('change', '#change-screen', function(e) {
-    var el     = $(this),
-        screen = el.val();
-    if (screen === 'noop') return;
-    
-    var vendor = el.find(':selected').parent();
-        
-    XS.fetchXML(vendor.attr('id'), screen, XS.processXML);
-    
-    // Display screen name
-    $('h1').text(screen).append('&nbsp;<span>' + vendor.attr('label') + '</span>');
-  });
 });

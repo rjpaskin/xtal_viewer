@@ -1,1 +1,3 @@
-XS.ChemicalCollection = Backbone.Collection.extend({});
+XS.ChemicalCollection = Backbone.Collection.extend({
+  model: XS.Chemical
+});
