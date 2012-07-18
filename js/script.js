@@ -123,27 +123,4 @@ jQuery(function($) {
   .on('mouseout', function() {
     $('#details').css('visibility', 'hidden').find('tbody').empty();
   });
-  
-  $('#ingredients tbody')
-  // Highlight wells that contain mouseover'd ingredient
-  .on('mouseover', 'tr', function() {
-    var name = $(this).find('td').eq(1).text();
-    $('.list li')
-      .filter(function() {
-        return $(this).text() === name;
-      })
-      .parents('.well')
-      .addClass('well-selected');
-  })
-  // Remove selected class from all wells
-  .on('mouseout', 'tr', function() {
-    $('.well').removeClass('well-selected');
-  })
-  // Set/remove class for well highlighting
-  .on('mouseover', function() {
-    $('#conditions').addClass('select-mode');
-  })
-  .on('mouseout', function() {
-    $('#conditions').removeClass('select-mode');
-  });
 });
