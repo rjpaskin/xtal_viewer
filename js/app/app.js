@@ -14,7 +14,8 @@ XS.Router = Backbone.Router.extend({
     $('#ingredients').hide();
     $('#conditions').empty();
     $('#details').css('visibility', 'hidden').find('tbody').empty();
-    $('#change-screen').val('');
+    $('#change-screen').val('').trigger("liszt:updated");
+    $('h1').text('Screen Viewer');
   },
   
   loadScreen: function(vendor, screen) {    
@@ -64,6 +65,13 @@ jQuery(function($) {
     alert('Page not found: ' + page);
   });
   
+  // Display screen name
+  App.on('route:loadScreen', function(vendor_id, screen) {
+    $('h1')
+      .text(screen)
+      .append('&nbsp;<span>' + XS.screens[vendor_id].name + '</span>'); 
+  });
+  
   
   // Load a screen
   $(document).on('change', '#change-screen', function(e) {
@@ -72,9 +80,6 @@ jQuery(function($) {
     if (screen === 'noop') return;
     
     var vendor = el.find(':selected').parent();
-    
-    // Display screen name
-    $('h1').text(screen).append('&nbsp;<span>' + vendor.attr('label') + '</span>');
     
     App.navigate(vendor.attr('id') + '/' + screen, {trigger: true});
   });
