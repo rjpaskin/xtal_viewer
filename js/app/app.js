@@ -27,6 +27,7 @@ XS.Router = Backbone.Router.extend({
       
       this.screen.fetchXML(XS.processXML);
       this.chemicalList = new XS.ChemicalView;
+      this.wellList = new XS.WellView;
     }
     else {
       this.trigger('page_not_found', vendor + '/' + screen);
