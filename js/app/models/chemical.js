@@ -1,0 +1,1 @@
+XS.Chemical = Backbone.Model.extend({});

@@ -1,0 +1,1 @@
+XS.ChemicalView = Backbone.View.extend({});

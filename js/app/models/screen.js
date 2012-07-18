@@ -1,0 +1,1 @@
+XS.Screen = Backbone.Model.extend({});

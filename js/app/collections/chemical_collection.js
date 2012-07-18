@@ -1,0 +1,1 @@
+XS.ChemicalCollection = Backbone.Collection.extend({});

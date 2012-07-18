@@ -1,0 +1,1 @@
+XS.WellCollection = Backbone.Collection.extend({});

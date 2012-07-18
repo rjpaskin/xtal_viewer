@@ -1,0 +1,1 @@
+XS.Well = Backbone.Model.extend({});
