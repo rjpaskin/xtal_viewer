@@ -43,6 +43,7 @@
     <script src="js/lib/backbone/backbone-min.js"></script>
     <script src="js/lib/chosen/chosen.jquery.min.js"></script>
     <script>window.XS = {};</script>
+    <script>XS.screens = <?php include 'list_screen_files.php' ?>;</script>
     <script src="js/setup.js"></script>
     <script src="js/script.js"></script>
     

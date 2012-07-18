@@ -4,11 +4,9 @@ XS.Router = Backbone.Router.extend({
     ':vendor/:screen': 'loadScreen'
   },
   
-  index: function() {
-    console.log('App started');
-    
+  index: function() {    
     if (!this.isInitialized()) {
-      this.fetchScreenData();
+      this.displayScreenData();
     }
     
     // TEMP - reset interface
@@ -19,9 +17,7 @@ XS.Router = Backbone.Router.extend({
     $('#change-screen').val('');
   },
   
-  loadScreen: function(vendor, screen) {
-    if (!this.screens) this.fetchScreenData();
-    
+  loadScreen: function(vendor, screen) {    
     if (this.screenExists(vendor, screen)) {
       XS.fetchXML(vendor, screen, XS.processXML);
     }
@@ -34,23 +30,16 @@ XS.Router = Backbone.Router.extend({
     return this.initialized;
   },
   
-  screenExists: function(vendor, screen) {
-    if (!this.screens) throw new Error('No screen information');
-    
-    return this.screens.hasOwnProperty(vendor)
-      && this.screens[vendor].files.indexOf(screen) !== -1;
+  screenExists: function(vendor, screen) {    
+    return XS.screens.hasOwnProperty(vendor)
+      && XS.screens[vendor].files.indexOf(screen) !== -1;
   },
   
   // Fetch JSON list of screens from server and render
   // as Chosen select box.
-  fetchScreenData: function() {
-    var app = this;
-    $.getJSON('list_screen_files.php', function(data) {
-      app.screens = data;
-      
-      XS.tmpl('select-screen', { list: data }, function(tmpl) {
-        $(tmpl).insertAfter('h1').chosen();
-      });
+  displayScreenData: function() {
+    XS.tmpl('select-screen', { list: XS.screens }, function(tmpl) {
+      $(tmpl).insertAfter('h1').chosen();
     });
   }
 });
