@@ -1,9 +1,11 @@
 <select id="change-screen" data-placeholder="Pick a screen...">
   <option value="noop"></option>
   <% for (var vendor in list) { %>
-    <optgroup label="<%= list[vendor].name %>" id="<%= vendor %>">
+    <optgroup label="<%= list[vendor].name %>">
       <% for (var screen in list[vendor].files) { %>
-        <option><%= list[vendor].files[screen] %></option>
+        <option value="<%= vendor + '/' + list[vendor].files[screen] %>">
+          <%= list[vendor].files[screen] %>
+        </option>
       <% } %>
     </optgroup>
   <% } %>

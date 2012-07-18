@@ -75,12 +75,9 @@ jQuery(function($) {
   
   // Load a screen
   $(document).on('change', '#change-screen', function(e) {
-    var el     = $(this),
-        screen = el.val();
+    var screen = $(this).val();
     if (screen === 'noop') return;
-    
-    var vendor = el.find(':selected').parent();
-    
-    App.navigate(vendor.attr('id') + '/' + screen, {trigger: true});
+        
+    App.navigate(screen, {trigger: true});
   });
 });
