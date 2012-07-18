@@ -19,7 +19,12 @@ XS.Router = Backbone.Router.extend({
   
   loadScreen: function(vendor, screen) {    
     if (this.screenExists(vendor, screen)) {
-      XS.fetchXML(vendor, screen, XS.processXML);
+      this.screen = new XS.Screen({
+        vendor: vendor,
+        name:   screen
+      });
+      
+      this.screen.fetchXML(XS.processXML)
     }
     else {
       this.trigger('page_not_found', vendor + '/' + screen);

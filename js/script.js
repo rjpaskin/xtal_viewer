@@ -1,8 +1,4 @@
-(function(XS, $) {
-  XS.fetchXML = function(vendor, screen, callback) {
-    $.get('screens/' + vendor + '/' + screen + '.xml', callback);
-  };
-  
+(function(XS, $) { 
   XS.getSortName = function(obj) {
     var name   = obj.el.find('name').text(),
         letter = name.match(/[A-Z]/);

@@ -12,5 +12,9 @@ XS.Screen = Backbone.Model.extend({
   
   validate: function(attrs) {
     if (!attrs.name) return "Must have a name";
+  },
+  
+  fetchXML: function(callback) {
+    $.get(this.url(), callback);
   }
 });
