@@ -1,14 +1,4 @@
-(function(XS, $) { 
-  XS.getSortName = function(obj) {
-    var name   = obj.el.find('name').text(),
-        letter = name.match(/[A-Z]/);
-    
-    if (!_.isNull(letter)) {
-      return letter.toString().toLowerCase();
-    }
-    return name.match(/[a-z]/).toString().toLowerCase();
-  };
-  
+(function(XS, $) {   
   // Imperfect processing of `shortNames` to obtain correct
   // subscript number. Temporary fix until names fixed manually
   // server-side.
