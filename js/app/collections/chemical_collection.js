@@ -1,3 +1,7 @@
 XS.ChemicalCollection = Backbone.Collection.extend({
-  model: XS.Chemical
+  model: XS.Chemical,
+  
+  comparator: function(chemical) {
+    return chemical.getSortName();
+  }
 });

@@ -25,9 +25,18 @@ XS.Router = Backbone.Router.extend({
         name:   screen
       });
       
-      this.screen.fetchXML(XS.processXML);
-      this.chemicalList = new XS.ChemicalView;
-      this.wellList = new XS.WellView;
+      var app = this;
+      
+      this.screen.fetchXML(function(data) {
+        app.screen.processXML.call(app, data);
+                
+        app.chemicalList = new XS.ChemicalView({
+          collection: app.screen.chemicals
+        });
+        app.wellList = new XS.WellView({
+          collection: app.screen.wells
+        });
+      });
     }
     else {
       this.trigger('page_not_found', vendor + '/' + screen);
@@ -56,9 +65,9 @@ jQuery(function($) {
   var App = window.App = new XS.Router;
   
   // DEBUG
-  App.on('all', function(event_name) {
+  /*App.on('all', function(event_name) {
     console.log('# EVENT: ', event_name, [].slice.call(arguments, 1));
-  });
+  });*/
   
   Backbone.history.start();
   App.initialized = true;

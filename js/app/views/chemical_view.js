@@ -1,9 +1,7 @@
 jQuery(function($){
 XS.ChemicalView = Backbone.View.extend({
   el: $('#ingredients tbody'),
-  
-  collection: new XS.ChemicalCollection,
-  
+    
   events: {
     'mouseover tr': 'filterWells',
     'mouseout tr':  'unfilterWells',
@@ -11,10 +9,17 @@ XS.ChemicalView = Backbone.View.extend({
     'mouseout':     'exitSelectMode'
   },
   
+  initialize: function() {
+    this.$el.empty();
+    if (this.collection.length > 0) this.render();
+    this.collection.on('reset', this.render, this);
+  },
+  
   render: function() {
-    this.collection.each(function(ingredient) {    
-      XS.tmpl('ingredient', ingredient, function(tmpl) {
-        $(tmpl).appendTo(this.$el);
+    var view = this;
+    this.collection.each(function(ingredient) {
+      XS.tmpl('ingredient', ingredient.toJSON(), function(tmpl) {
+        $(tmpl).appendTo(view.$el);
       });
     });
   },

@@ -1,4 +1,8 @@
 XS.Chemical = Backbone.Model.extend({
+  initialize: function() {
+    this.set('shortName', this.get('el').find('shortName').text());
+  },
+
   getSortName: function() {
     var name   = this.escape('shortName'),
         letter = name.match(/[A-Z]/);
