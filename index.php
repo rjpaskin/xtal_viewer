@@ -48,11 +48,11 @@
     <script src="js/script.js"></script>
     
     <script src="js/app/app.js"></script>
-    <script src="js/app/collections/chemical_collection.js"></script>
-    <script src="js/app/collections/well_collection.js"></script>
     <script src="js/app/models/chemical.js"></script>
     <script src="js/app/models/screen.js"></script>
     <script src="js/app/models/well.js"></script>
+    <script src="js/app/collections/chemical_collection.js"></script>
+    <script src="js/app/collections/well_collection.js"></script>
     <script src="js/app/views/chemical_view.js"></script>
     <script src="js/app/views/well_view.js"></script>
   </body>
