@@ -1,6 +1,11 @@
 XS.Chemical = Backbone.Model.extend({
   initialize: function() {
-    this.set('shortName', this.get('el').find('shortName').text());
+    var shortName = this.get('el').find('shortName').text(),
+        formatted = this.displayShortName(shortName);
+    this.set({
+      'shortName': shortName,
+      'shortNameHTML': formatted
+    });
   },
 
   getSortName: function() {
@@ -16,8 +21,8 @@ XS.Chemical = Backbone.Model.extend({
   // Imperfect processing of `shortNames` to obtain correct
   // subscript number. Temporary fix until names fixed manually
   // server-side.
-  displayShortName: function() {
+  displayShortName: function(name) {
     var regex = /([A-Z)])([0-9])(?![0-9K,-\/])/gi;
-    return this.escape('shortName').replace(regex, "$1<sub>$2</sub>");
+    return name.replace(regex, "$1<sub>$2</sub>");
   }
 });
