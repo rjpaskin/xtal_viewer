@@ -32,9 +32,7 @@ XS.Screen = Backbone.Model.extend({
     //     key:   stock ID
     //     value: eq() of ingredient in list
     var ingredients_map = {};
-        
-    $('#ingredients').show();
-    
+            
     // Setup table of ingredients
     var for_collection = _.map($xml.ingredients, function(ingredient, index) {
       var el  = $(ingredient);

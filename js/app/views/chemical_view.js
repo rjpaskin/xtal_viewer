@@ -10,7 +10,7 @@ XS.ChemicalView = Backbone.View.extend({
   },
   
   initialize: function() {
-    this.$el.empty();
+    this.$el.empty().parent().show();
     if (this.collection.length > 0) this.render();
     this.collection.on('reset', this.render, this);
   },
