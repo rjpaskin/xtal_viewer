@@ -7,6 +7,25 @@ XS.WellView = Backbone.View.extend({
     'mouseout':        'hideDetails'
   },
   
+  initialize: function() {
+    this.$el.empty();
+    if (this.collection.length > 0) this.render();
+  },
+  
+  render: function() {
+    var view = this;
+    this.collection.each(function(well) {
+      XS.tmpl('well', well.toJSON(), function(tmpl) {
+        $(tmpl)
+          .appendTo(view.$el)
+          .data({
+            'ingredients': well.get('ingredients'),
+            'conditions':  well.get('conditions')
+          });
+      });
+    });
+  },
+  
   // Find and display details of well on hover
   showDetails: function(e) {
     var el   = $(e.currentTarget),

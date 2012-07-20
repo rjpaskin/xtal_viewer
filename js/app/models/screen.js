@@ -52,12 +52,10 @@ XS.Screen = Backbone.Model.extend({
     });
     
     this.screen.chemicals.reset(for_collection);
-        
-    var plate_view = $('#conditions').empty();
     
     
     // Setup plate view
-    $xml.wells.each(function(index) {
+    var for_wells = $xml.wells.map(function(index) {
       var $el = $(this).find('conditionIngredient');
     
       // Find ingredients for this well
@@ -69,17 +67,12 @@ XS.Screen = Backbone.Model.extend({
         }
       });
       
-      XS.tmpl('well', {
-          ingredients: $ingredients,
-          well_id:     XS.generateWellID(index)
-        }, function(tmpl) {
-        $(tmpl)
-          .appendTo(plate_view)
-          .data({
-            'ingredients': $ingredients,
-            'conditions':  $el.clone()
-          });
-      });      
-    });
+      return {
+        ingredients: $ingredients,
+        index:       index,
+        conditions:  $el.clone()
+      }
+    }).get();
+    this.screen.wells.reset(for_wells);
   }
 });
