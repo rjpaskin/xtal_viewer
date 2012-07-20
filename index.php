@@ -45,7 +45,6 @@
     <script>window.XS = {};</script>
     <script>XS.screens = <?php include 'list_screen_files.php' ?>;</script>
     <script src="js/setup.js"></script>
-    <script src="js/script.js"></script>
     
     <script src="js/app/app.js"></script>
     <script src="js/app/models/chemical.js"></script>
