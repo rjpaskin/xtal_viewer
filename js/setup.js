@@ -15,21 +15,9 @@
   //   fn:   callback function, passed rendered template. 
   XS.tmpl = function(name, data, fn){
     loadTemplateAsync(name).done(function(str){
-      var template = XS._tmpl(str, data);
+      var template = _.template(str, data);
       fn.call(this, template);
     });
-  };
-  
-  // Generate a well ID from a zero-based index
-  //  row_size: number of well in a row (default: 12)
-  XS.generateWellID = function(index, row_size) {
-    if (row_size == null) { row_size = 12; }
-    
-    var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-        column  = Math.ceil((index + 1) / row_size) - 1,
-        row     = (index % row_size) + 1;
-        
-    return letters[column] + row;
   };
   
   XS.generateGradient = function(min, max, num) {

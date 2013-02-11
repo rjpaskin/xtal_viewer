@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>Screen Viewer</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="lib/chosen/chosen.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="js/lib/chosen/chosen.css">
   </head>
   <body>
     <h1>Screen Viewer</h1>
@@ -39,10 +39,20 @@
       </table>
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script src="lib/chosen/chosen.jquery.min.js"></script>
+    <script src="js/lib/backbone/underscore-min.js"></script>
+    <script src="js/lib/backbone/backbone-min.js"></script>
+    <script src="js/lib/chosen/chosen.jquery.min.js"></script>
     <script>window.XS = {};</script>
-    <script src="template.js"></script>
-    <script src="setup.js"></script>
-    <script src="script.js"></script>
+    <script>XS.screens = <?php include 'list_screen_files.php' ?>;</script>
+    <script src="js/setup.js"></script>
+    
+    <script src="js/app/app.js"></script>
+    <script src="js/app/models/chemical.js"></script>
+    <script src="js/app/models/screen.js"></script>
+    <script src="js/app/models/well.js"></script>
+    <script src="js/app/collections/chemical_collection.js"></script>
+    <script src="js/app/collections/well_collection.js"></script>
+    <script src="js/app/views/chemical_view.js"></script>
+    <script src="js/app/views/well_view.js"></script>
   </body>
 </html>

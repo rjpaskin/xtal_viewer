@@ -1,6 +1,4 @@
 <?php
-header('Content-Type: application/json');
-
 $ruby = 'ruby';
 
 if (file_exists($_ENV['HOME'] . '/.rvm/bin/rvm')) {

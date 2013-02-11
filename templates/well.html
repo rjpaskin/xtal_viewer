@@ -1,7 +1,7 @@
 <li class="well">
   <ul class="list">
     <% for (var i = 0; i < ingredients.length; i++) { %>
-      <li><%= XS.getShortName(ingredients[i]) %></li>
+      <li><%= XS.Chemical.prototype.displayShortName(ingredients[i].find('shortName').text()) %></li>
     <% } %>
   </ul>
   <span class="num-conditions"><%= ingredients.length %></span>
