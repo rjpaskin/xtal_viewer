@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
-require 'rubygems'
 require 'json'
-out = {}
+screens  = {}
+filename = File.expand_path('../screen_details.js', __FILE__)
 
 def humanify(name)
   name.split('_').map { |word| word.capitalize }.join(' ')
@@ -10,10 +10,15 @@ end
 Dir.glob('screens/*/').each do |dir|
   name = dir.split('/').last
   
-  out[name] = {
+  screens[name] = {
     'name'  => humanify(name),
     'files' => Dir.glob("#{dir}/*.xml").map { |file| File.basename file, '.xml' }
   }
 end
 
-puts out.to_json
+output = <<JS
+// This file is generated using `list_screen_files.rb`
+XS.screens = #{JSON.pretty_generate screens}
+JS
+
+File.write(filename, output)
