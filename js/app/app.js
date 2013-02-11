@@ -73,9 +73,6 @@ jQuery(function($) {
     console.log('# EVENT: ', event_name, [].slice.call(arguments, 1));
   });*/
   
-  Backbone.history.start();
-  App.initialized = true;
-  
   App.on('page_not_found', function(page) {
     alert('Page not found: ' + page);
   });
@@ -95,4 +92,8 @@ jQuery(function($) {
         
     App.navigate(screen, {trigger: true});
   });
+  
+  // Must be triggered last
+  Backbone.history.start();
+  App.initialized = true;
 });
