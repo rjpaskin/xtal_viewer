@@ -18,7 +18,11 @@ XS.Router = Backbone.Router.extend({
     $('h1').text('Screen Viewer');
   },
   
-  loadScreen: function(vendor, screen) {    
+  loadScreen: function(vendor, screen) {
+    if (!this.isInitialized()) {
+      this.displayScreenData();
+    }
+     
     if (this.screenExists(vendor, screen)) {
       this.screen = new XS.Screen({
         vendor: vendor,
