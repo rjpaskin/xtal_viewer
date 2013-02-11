@@ -20,7 +20,7 @@ XS.Router = Backbone.Router.extend({
   
   loadScreen: function(vendor, screen) {
     if (!this.isInitialized()) {
-      this.displayScreenData();
+      this.displayScreenData(vendor + '/' + screen);
     }
      
     if (this.screenExists(vendor, screen)) {
@@ -58,9 +58,15 @@ XS.Router = Backbone.Router.extend({
   
   // Fetch JSON list of screens from server and render
   // as Chosen select box.
-  displayScreenData: function() {
+  displayScreenData: function(initial_value) {
     XS.tmpl('select-screen', { list: XS.screens }, function(tmpl) {
-      $(tmpl).insertAfter('h1').chosen();
+      var select = $(tmpl);
+      
+      if (initial_value) {
+        select.val(initial_value);
+      }
+      
+      select.insertAfter('h1').chosen();
     });
   }
 });
